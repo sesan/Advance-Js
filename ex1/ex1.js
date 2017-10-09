@@ -1,77 +1,84 @@
-A();
+/* Note to prevent a global variable ensure you put your code in an IIFE statement */
 
-function C() {
-	console.log("OOPS!");
-}
+(function() {
 
-function E(f) {
-	console.log("E");
-	f();
-	var f = F;
-}
 
-var A = function() {
-	console.log("A");
-	B();
-};
+    function C() {
+        console.log("OOPS!");
+    }
 
-var C;
+    function E(f) {
+        console.log("E");
+        f();
+        var f = F;
+    }
 
-function G() {
-	console.log("G");
-	H();
+    //var A = function () { for A() to work based on hoisting in line: 5 ensure to change it to a function declaration
+	function A (){
+        console.log("A");
+        B();
+    };
 
-	var H = function() {
-		console.log("H");
-		I();
-	};
-}
+    var C;
 
-var D = d;
+    function G() {
+        console.log("G");
+        H();
 
-function d() {
-	console.log("D");
-	E();
-}
+        function H () {
+            console.log("H");
+            I();
+        };
+    }
 
-function I() {
-	console.log("I");
-	J();
-	J();
-}
+    var D = d;
 
-B = function() {
-	console.log("B");
-	C();
-};
+    function d() {
+        console.log("D");
+        E(F);
+    }
 
-var F = function() {
-	console.log("F");
-	G();
-};
+    function I() {
+        console.log("I");
+        J();
+        J();
+    }
 
-var rest = "KLMNOPQRSTUVWXYZ".split("");
-for (var i=0; i<rest.length; i++) {
-	(function(i){
-		// define the current function
-		window[rest[i]] = function() {
-			console.log(rest[i]);
-			if (i < (rest.length-1)) {
-				// TODO: call the next function
-			}
-		};
-	})(i);
-}
+  //  B = function () { // samething goes for the B variable change it to a function declaration
+	function B() {
+        console.log("B");
+        C();
+    };
 
-var J = function() {
-	J = function() {
-		console.log("J");
-		K();
-	};
-};
+    var F = function () {
+        console.log("F");
+        G();
+    };
 
-C = function() {
-	console.log("C");
-	D();
-};
+    var rest = "KLMNOPQRSTUVWXYZ".split("");
+    for (var i = 0; i < rest.length; i++) {
+        (function (i) {
+            // define the current function
+            window[rest[i]] = function () {
+                console.log(rest[i]);
+                if (i < (rest.length - 1)) {
+                    // TODO: call the next function
+                    window[rest[i + 1]]();
+                }
+            };
+        })(i);
+    }
 
+    var J = function () {
+        J = function () {
+            console.log("J");
+            K();
+        };
+    };
+
+    function C () {
+        console.log("C");
+        D();
+    };
+    return A;
+})() ();
